@@ -10,8 +10,10 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.2",
         "@inertiajs/inertia": "^0.8.2",
         "@inertiajs/inertia-vue": "^0.5.4",
+        "@mdi/font": "^5.9.55",
         "@tailwindcss/forms": "^0.2.1",
         "@tailwindcss/typography": "^0.3.0",
         "autoprefixer": "^10.0.2",
@@ -25,5 +27,10 @@
         "vue": "^2.5.17",
         "vue-loader": "^15.9.6",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "buefy": "^0.9.4",
+        "popper.js": "^1.16.1",
+        "vee-validate": "^3.4.5"
     }
 }
