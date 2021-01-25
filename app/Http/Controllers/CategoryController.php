@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Redirect;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -14,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Category/Index');
+        $categories = Category::latest()->get();
+        return Inertia::render('Category/Index', ['categories' => $categories]);
     }
 
     /**
@@ -35,7 +39,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = $request->file('image')->store('public/files');
+        Category::create([
+            'name' => $request->get('name'),
+            'slug' => Str::slug($request->get('name')),
+            'description' => $request->get('description'),
+            'image' => $image
+        ]);
+        return Redirect::route('category.index')->with('message', 'Success Category created...');
     }
 
     /**

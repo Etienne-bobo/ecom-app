@@ -3300,7 +3300,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4192,18 +4191,71 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "category-create-page",
+  data: function data() {
+    return {
+      form: {
+        name: "",
+        description: "",
+        image: null
+      }
+    };
+  },
   components: {
     Applayout: _Layouts_Layout__WEBPACK_IMPORTED_MODULE_0__.default,
     ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_1__.ValidationObserver,
     ValidationProvider: vee_validate__WEBPACK_IMPORTED_MODULE_1__.ValidationProvider
   },
   methods: {
-    submit: function submit() {
-      console.log("Form submitted yay!");
+    submit: function submit(data) {
+      this.$inertia.post("/category", data);
+      this.$buefy.snackbar.open({
+        duration: 10000,
+        message: 'success category created ......',
+        type: "is-danger",
+        position: "is-top",
+        actionText: "close",
+        queue: false
+      });
     }
   }
 });
@@ -4230,9 +4282,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "category-page",
+  props: ['categories'],
   components: {
     Applayout: _Layouts_Layout__WEBPACK_IMPORTED_MODULE_0__.default
   }
@@ -51845,8 +51946,7 @@ var render = function() {
                       type: "search",
                       icon: "magnify",
                       "icon-clickable": ""
-                    },
-                    on: { "icon-click": _vm.searchIconClick }
+                    }
                   })
                 ],
                 1
@@ -52055,13 +52155,13 @@ var render = function() {
           ),
           _vm._v(" "),
           _c(
-            "router-link",
+            "inertia-link",
             {
               staticClass:
                 "md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0",
-              attrs: { to: "/" }
+              attrs: { href: "#" }
             },
-            [_vm._v("\n      Vue Notus\n    ")]
+            [_vm._v("\n      Vixiza\n    ")]
           ),
           _vm._v(" "),
           _c(
@@ -52085,13 +52185,13 @@ var render = function() {
                       { staticClass: "w-6/12" },
                       [
                         _c(
-                          "router-link",
+                          "inertia-link",
                           {
                             staticClass:
                               "md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0",
-                            attrs: { to: "/" }
+                            attrs: { href: "#" }
                           },
-                          [_vm._v("\n              Vue Notus\n            ")]
+                          [_vm._v("\n              Vixiza\n            ")]
                         )
                       ],
                       1
@@ -53401,196 +53501,281 @@ var render = function() {
     [
       _c("Applayout"),
       _vm._v(" "),
-      _c("div", { staticClass: "flex flex-wrap" }, [
+      _c("div", { staticClass: "flex flex-wrap mx-auto" }, [
         _c(
           "div",
-          { staticClass: "w-full lg:w-8/12 max-w-xl mt-12 px-4 md:ml-64" },
+          { staticClass: "w-full lg:w-8/12 max-w-2xl mt-12 px-4 md:ml-64" },
           [
-            _c("ValidationObserver", {
-              ref: "observer",
-              scopedSlots: _vm._u([
-                {
-                  key: "default",
-                  fn: function(ref) {
-                    var handleSubmit = ref.handleSubmit
-                    return [
-                      _c(
-                        "section",
-                        { staticClass: "section" },
-                        [
-                          _c("ValidationProvider", {
-                            attrs: { rules: "required", name: "name" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var errors = ref.errors
-                                    var valid = ref.valid
-                                    return [
-                                      _c(
-                                        "b-field",
-                                        {
-                                          attrs: {
-                                            label: "Name",
-                                            type: {
-                                              "is-danger": errors[0],
-                                              "is-success": valid
-                                            },
-                                            message: errors
-                                          }
-                                        },
-                                        [
-                                          _c("b-input", {
-                                            attrs: { type: "text" },
-                                            model: {
-                                              value: _vm.name,
-                                              callback: function($$v) {
-                                                _vm.name = $$v
-                                              },
-                                              expression: "name"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              true
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c("ValidationProvider", {
-                            attrs: { rules: "required", name: "description" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(ref) {
-                                    var errors = ref.errors
-                                    var valid = ref.valid
-                                    return [
-                                      _c(
-                                        "b-field",
-                                        {
-                                          attrs: {
-                                            label: "Description",
-                                            type: {
-                                              "is-danger": errors[0],
-                                              "is-success": valid
-                                            },
-                                            message: errors
-                                          }
-                                        },
-                                        [
-                                          _c("b-input", {
-                                            attrs: { type: "text" },
-                                            model: {
-                                              value: _vm.description,
-                                              callback: function($$v) {
-                                                _vm.description = $$v
-                                              },
-                                              expression: "description"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              true
-                            )
-                          }),
-                          _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "bg-green-500 text-center mt-12 py-4 px-4" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "p-2 bg-indigo-600 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _c(
+                      "span",
+                      {
+                        staticClass:
+                          "flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3"
+                      },
+                      [_vm._v("New")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      { staticClass: "font-semibold mr-2 text-left flex-auto" },
+                      [_vm._v("Create new Category")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "fill-current opacity-75 h-4 w-4",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 20 20"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "form",
+              { attrs: { enctype: "multipart/form-data" } },
+              [
+                _c("ValidationObserver", {
+                  ref: "observer",
+                  scopedSlots: _vm._u([
+                    {
+                      key: "default",
+                      fn: function(ref) {
+                        var handleSubmit = ref.handleSubmit
+                        return [
                           _c(
-                            "b-field",
-                            {
-                              staticClass: "file is-primary",
-                              class: { "has-name": !!_vm.file }
-                            },
+                            "section",
+                            { staticClass: "section" },
                             [
+                              _c("ValidationProvider", {
+                                attrs: { rules: "required" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        var valid = ref.valid
+                                        return [
+                                          _c(
+                                            "b-field",
+                                            {
+                                              attrs: {
+                                                label: "Name",
+                                                type: {
+                                                  "is-danger": errors[0],
+                                                  "is-success": valid
+                                                },
+                                                message: errors
+                                              }
+                                            },
+                                            [
+                                              _c("b-input", {
+                                                attrs: { type: "text" },
+                                                model: {
+                                                  value: _vm.form.name,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "name",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "form.name"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              }),
+                              _vm._v(" "),
+                              _c("ValidationProvider", {
+                                attrs: { rules: "required" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        var valid = ref.valid
+                                        return [
+                                          _c(
+                                            "b-field",
+                                            {
+                                              attrs: {
+                                                label: "Description",
+                                                type: {
+                                                  "is-danger": errors[0],
+                                                  "is-success": valid
+                                                },
+                                                message: errors
+                                              }
+                                            },
+                                            [
+                                              _c("b-input", {
+                                                attrs: {
+                                                  maxlength: "200",
+                                                  type: "textarea"
+                                                },
+                                                model: {
+                                                  value: _vm.form.description,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "description",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "form.description"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              }),
+                              _vm._v(" "),
                               _c(
-                                "b-upload",
+                                "b-field",
                                 {
-                                  staticClass: "file-label",
-                                  model: {
-                                    value: _vm.file,
-                                    callback: function($$v) {
-                                      _vm.file = $$v
-                                    },
-                                    expression: "file"
-                                  }
+                                  staticClass: "file is-primary mt-4",
+                                  class: { "has-name": !!_vm.form.image }
                                 },
                                 [
                                   _c(
-                                    "span",
-                                    { staticClass: "file-cta" },
+                                    "b-upload",
+                                    {
+                                      staticClass: "file-label",
+                                      model: {
+                                        value: _vm.form.image,
+                                        callback: function($$v) {
+                                          _vm.$set(_vm.form, "image", $$v)
+                                        },
+                                        expression: "form.image"
+                                      }
+                                    },
                                     [
-                                      _c("b-icon", {
-                                        staticClass: "file-icon",
-                                        attrs: { icon: "upload" }
-                                      }),
-                                      _vm._v(" "),
                                       _c(
                                         "span",
-                                        { staticClass: "file-label" },
-                                        [_vm._v("Click to upload")]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _vm.file
-                                    ? _c("span", { staticClass: "file-name" }, [
-                                        _vm._v(
-                                          "\n              " +
-                                            _vm._s(_vm.file.name) +
-                                            "\n          "
-                                        )
-                                      ])
-                                    : _vm._e()
+                                        { staticClass: "file-cta" },
+                                        [
+                                          _c("b-icon", {
+                                            staticClass: "file-icon",
+                                            attrs: { icon: "upload" }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "file-label" },
+                                            [_vm._v("Click to upload")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _vm.form.image
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "file-name" },
+                                            [
+                                              _vm._v(
+                                                "\n                  " +
+                                                  _vm._s(_vm.form.image.name) +
+                                                  "\n                "
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "inertia-link",
+                                {
+                                  attrs: { href: _vm.route("category.index") }
+                                },
+                                [
+                                  _c("div", { staticClass: "buttons" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "button is-success",
+                                        on: {
+                                          click: function($event) {
+                                            handleSubmit(_vm.submit(_vm.form))
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "icon is-small" },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fas fa-check"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("span", [_vm._v("Submit")])
+                                      ]
+                                    )
+                                  ])
                                 ]
                               )
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "buttons" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "button is-success",
-                                on: {
-                                  click: function($event) {
-                                    return handleSubmit(_vm.submit)
-                                  }
-                                }
-                              },
-                              [
-                                _c("span", { staticClass: "icon is-small" }, [
-                                  _c("i", { staticClass: "fas fa-check" })
-                                ]),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("Submit")])
-                              ]
-                            )
-                          ])
-                        ],
-                        1
-                      )
-                    ]
-                  }
-                }
-              ])
-            })
-          ],
-          1
+                          )
+                        ]
+                      }
+                    }
+                  ])
+                })
+              ],
+              1
+            )
+          ]
         )
       ])
     ],
@@ -53620,16 +53805,119 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("Applayout"), _vm._v(" "), _vm._m(0)], 1)
+  return _c(
+    "div",
+    [
+      _c("Applayout"),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-wrap" }, [
+        _c("div", { staticClass: "lg:mt-10 w-full px-4 md:ml-64" }, [
+          _c("div", { staticClass: "container my-12 mx-auto px-4 md:px-12" }, [
+            _c(
+              "div",
+              { staticClass: "flex flex-wrap -mx-1 mt-12 lg:-mx-4" },
+              _vm._l(_vm.categories, function(category, id) {
+                return _c(
+                  "div",
+                  {
+                    key: id,
+                    staticClass:
+                      "my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
+                  },
+                  [
+                    _c(
+                      "article",
+                      { staticClass: "overflow-hidden rounded-lg shadow-lg" },
+                      [
+                        _c("a", { attrs: { href: "#" } }, [
+                          _c("img", {
+                            staticClass: "block h-auto w-full",
+                            attrs: { alt: "Placeholder", src: category.image }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "header",
+                          {
+                            staticClass:
+                              "flex items-center justify-between leading-tight p-2 md:p-4"
+                          },
+                          [
+                            _c("h1", { staticClass: "text-lg" }, [
+                              _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "no-underline hover:underline text-black",
+                                  attrs: { href: "#" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(category.name) +
+                                      "\n                  "
+                                  )
+                                ]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "footer",
+                          {
+                            staticClass:
+                              "flex items-center justify-between leading-none p-2 md:p-4"
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass:
+                                  "flex items-center no-underline hover:underline text-black",
+                                attrs: { href: "#" }
+                              },
+                              [
+                                _c("p", { staticClass: "ml-2 text-sm" }, [
+                                  _vm._v(_vm._s(category.description))
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(0, true)
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex flex-wrap mt-4" }, [
-      _c("div", { staticClass: "w-full xl:w-4/12 px-4" })
-    ])
+    return _c(
+      "a",
+      {
+        staticClass: "no-underline text-grey-darker hover:text-red-dark",
+        attrs: { href: "#" }
+      },
+      [
+        _c("span", { staticClass: "hidden" }, [_vm._v("Like")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "fa fa-heart" })
+      ]
+    )
   }
 ]
 render._withStripped = true

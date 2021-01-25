@@ -14,12 +14,12 @@
         <i class="fas fa-bars"></i>
       </button>
       <!-- Brand -->
-      <router-link
+      <inertia-link
         class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
-        to="/"
+        href="#"
       >
-        Vue Notus
-      </router-link>
+        Vixiza
+      </inertia-link>
       <!-- Collapse -->
       <div
         class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded"
@@ -31,12 +31,12 @@
         >
           <div class="flex flex-wrap">
             <div class="w-6/12">
-              <router-link
+              <inertia-link
                 class="md:block text-left md:pb-2 text-gray-700 mr-0 inline-block whitespace-no-wrap text-sm uppercase font-bold p-4 px-0"
-                to="/"
+                href="#"
               >
-                Vue Notus
-              </router-link>
+                Vixiza
+              </inertia-link>
             </div>
             <div class="w-6/12 flex justify-end">
               <button

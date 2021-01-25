@@ -23,7 +23,6 @@
             type="search"
             icon="magnify"
             icon-clickable
-            @icon-click="searchIconClick"
           >
           </b-input>
         </b-field>
