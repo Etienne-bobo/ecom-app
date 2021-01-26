@@ -30,6 +30,7 @@
     },
     "dependencies": {
         "buefy": "^0.9.4",
+        "moment": "^2.29.1",
         "popper.js": "^1.16.1",
         "vee-validate": "^3.4.5"
     }

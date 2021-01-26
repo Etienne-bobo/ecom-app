@@ -39,7 +39,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $image = $request->file('image')->store('public/files');
+        $image = $request->file('image')->store('files');
         Category::create([
             'name' => $request->get('name'),
             'slug' => Str::slug($request->get('name')),
@@ -68,7 +68,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        return Inertia::render('Category/Edit', ['category' => $category]);
     }
 
     /**
@@ -91,6 +92,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->delete();
+        return Redirect::route('category.index');
     }
 }
