@@ -3434,6 +3434,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -4249,9 +4270,9 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit(data) {
       this.$inertia.post("/category", data);
       this.$buefy.snackbar.open({
-        duration: 10000,
+        duration: 5000,
         message: 'success category created ......',
-        type: "is-danger",
+        type: "is-success",
         position: "is-top",
         actionText: "close",
         queue: false
@@ -4473,8 +4494,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4483,11 +4502,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       showModal: false,
-      form: {
+      sending: false,
+      form: this.$inertia.form({
+        _method: "PUT",
         name: this.category.name,
         description: this.category.description,
-        image: ''
-      }
+        image: null
+      })
     };
   },
   components: {
@@ -4496,6 +4517,21 @@ __webpack_require__.r(__webpack_exports__);
     ValidationProvider: vee_validate__WEBPACK_IMPORTED_MODULE_1__.ValidationProvider
   },
   methods: {
+    update: function update() {
+      this.form.post(route("category.update", this.category.id), {
+        errorBag: "updateCategory",
+        preserveScroll: true
+      });
+      this.showModal = false;
+      this.$buefy.snackbar.open({
+        duration: 5000,
+        message: "success category updated ......",
+        type: "is-success",
+        position: "is-top",
+        actionText: "close",
+        queue: false
+      });
+    },
     destroy: function destroy(category) {
       this.$buefy.dialog.confirm({
         title: "Deleting " + category.name + " category",
@@ -4506,6 +4542,14 @@ __webpack_require__.r(__webpack_exports__);
         onConfirm: function onConfirm() {
           category._method = "DELETE";
           this.$inertia.post("/category/" + category.id, category);
+          this.$buefy.snackbar.open({
+            duration: 5000,
+            message: "success category deleted ......",
+            type: "is-danger",
+            position: "is-top",
+            actionText: "close",
+            queue: false
+          });
         }
       });
     }
@@ -4582,10 +4626,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "category-page",
-  props: ['categories'],
+  props: ["categories"],
   components: {
     Applayout: _Layouts_Layout__WEBPACK_IMPORTED_MODULE_0__.default
   }
@@ -74003,9 +74060,19 @@ var render = function() {
                     "b-menu-list",
                     { attrs: { label: "Menu" } },
                     [
-                      _c("b-menu-item", {
-                        attrs: { icon: "information-outline", label: "Info" }
-                      }),
+                      _c(
+                        "inertia-link",
+                        { attrs: { href: _vm.route("category.index") } },
+                        [
+                          _c("b-menu-item", {
+                            attrs: {
+                              icon: "information-outline",
+                              label: "Categories"
+                            }
+                          })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "b-menu-item",
@@ -75608,21 +75675,6 @@ var render = function() {
                               "block font-medium text-xl leading-snug text-black dark:text-gray-100"
                           },
                           [_vm._v(_vm._s(_vm.category.name))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          {
-                            staticClass:
-                              "block text-sm text-gray-500 dark:text-gray-400 font-light leading-snug"
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(
-                                _vm._f("formatDate")(_vm.category.created_at)
-                              )
-                            )
-                          ]
                         )
                       ]),
                       _vm._v(" "),
@@ -75668,14 +75720,14 @@ var render = function() {
                                             "div",
                                             {
                                               staticClass:
-                                                "flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t"
+                                                "flex items-start justify-between px-5 py-3 border-b border-solid border-gray-300 rounded-t"
                                             },
                                             [
                                               _c(
                                                 "h3",
                                                 {
                                                   staticClass:
-                                                    "text-3xl font-semibold"
+                                                    "text-xl font-semibold"
                                                 },
                                                 [
                                                   _vm._v(
@@ -75908,6 +75960,8 @@ var render = function() {
                                                                       _c(
                                                                         "b-upload",
                                                                         {
+                                                                          ref:
+                                                                            "image",
                                                                           staticClass:
                                                                             "file-label",
                                                                           model: {
@@ -75990,83 +76044,99 @@ var render = function() {
                                                                                   )
                                                                                 ]
                                                                               )
-                                                                            : _vm._e()
+                                                                            : _c(
+                                                                                "span",
+                                                                                [
+                                                                                  _c(
+                                                                                    "img",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "w-12 h-12 rounded-full ml-4",
+                                                                                      attrs: {
+                                                                                        src:
+                                                                                          "http://localhost:8000/storage/" +
+                                                                                          _vm
+                                                                                            .category
+                                                                                            .image
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ]
+                                                                              )
                                                                         ]
                                                                       )
                                                                     ],
                                                                     1
-                                                                  ),
-                                                                  _vm._v(" "),
-                                                                  _c(
-                                                                    "inertia-link",
-                                                                    {
-                                                                      attrs: {
-                                                                        href: _vm.route(
-                                                                          "category.index"
-                                                                        )
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "div",
-                                                                        {
-                                                                          staticClass:
-                                                                            "buttons"
-                                                                        },
-                                                                        [
-                                                                          _c(
-                                                                            "button",
-                                                                            {
-                                                                              staticClass:
-                                                                                "button is-success",
-                                                                              on: {
-                                                                                click: function(
-                                                                                  $event
-                                                                                ) {
-                                                                                  handleSubmit(
-                                                                                    _vm.submit(
-                                                                                      _vm.form
-                                                                                    )
-                                                                                  )
-                                                                                }
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _c(
-                                                                                "span",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "icon is-small"
-                                                                                },
-                                                                                [
-                                                                                  _c(
-                                                                                    "i",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "fas fa-check"
-                                                                                    }
-                                                                                  )
-                                                                                ]
-                                                                              ),
-                                                                              _vm._v(
-                                                                                " "
-                                                                              ),
-                                                                              _c(
-                                                                                "span",
-                                                                                [
-                                                                                  _vm._v(
-                                                                                    "Submit"
-                                                                                  )
-                                                                                ]
-                                                                              )
-                                                                            ]
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ]
                                                                   )
                                                                 ],
                                                                 1
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "flex items-center justify-end px-6 py-3 border-t border-solid border-gray-300 rounded-b"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "button",
+                                                                    {
+                                                                      staticClass:
+                                                                        "text-red-500 bg-transparent hover:text-black active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1",
+                                                                      staticStyle: {
+                                                                        transition:
+                                                                          "all 0.15s ease"
+                                                                      },
+                                                                      attrs: {
+                                                                        type:
+                                                                          "button"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          _vm.showModal = false
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\n                                Close\n                              "
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "button",
+                                                                    {
+                                                                      staticClass:
+                                                                        "text-white bg-green-600 font-bold uppercase px-6 py-3 rounded-md text-sm outline-none focus:outline-none mr-1 mb-1",
+                                                                      staticStyle: {
+                                                                        transition:
+                                                                          "all 0.15s ease"
+                                                                      },
+                                                                      attrs: {
+                                                                        type:
+                                                                          "button"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return handleSubmit(
+                                                                            _vm.update
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\n                                Save Changes\n                              "
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
                                                               )
                                                             ]
                                                           }
@@ -76074,64 +76144,11 @@ var render = function() {
                                                       ],
                                                       null,
                                                       false,
-                                                      1812591207
+                                                      1532393435
                                                     )
                                                   })
                                                 ],
                                                 1
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "flex items-center justify-end px-6 py-3 border-t border-solid border-gray-300 rounded-b"
-                                            },
-                                            [
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "text-red-500 bg-transparent hover:text-black active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1",
-                                                  staticStyle: {
-                                                    transition: "all 0.15s ease"
-                                                  },
-                                                  attrs: { type: "button" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.showModal = false
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                          Close\n                        "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "text-white bg-green-600 font-bold uppercase px-6 py-3 rounded-md text-sm outline-none focus:outline-none mr-1 mb-1",
-                                                  staticStyle: {
-                                                    transition: "all 0.15s ease"
-                                                  },
-                                                  attrs: { type: "button" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.toggleModal()
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                          Save Changes\n                        "
-                                                  )
-                                                ]
                                               )
                                             ]
                                           )
@@ -76181,7 +76198,35 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _c(
+                    "div",
+                    { staticClass: "flex justify-between items-center mt-5" },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "ml-1 text-gray-500 dark:text-gray-400 font-light"
+                        },
+                        [
+                          _c(
+                            "span",
+                            {
+                              staticClass:
+                                "block text-sm text-gray-500 dark:text-gray-400 font-light leading-snug"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("formatDate")(_vm.category.created_at)
+                                )
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
                 ]
               )
             ])
@@ -76192,24 +76237,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "flex justify-between items-center mt-5" },
-      [
-        _c(
-          "div",
-          { staticClass: "ml-1 text-gray-500 dark:text-gray-400 font-light" },
-          [_vm._v("\n                33 comments\n              ")]
-        )
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -76239,112 +76267,135 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "flex flex-wrap" }, [
         _c("div", { staticClass: "md:mt-10 w-full px-4 md:ml-64" }, [
-          _c("div", { staticClass: "container my-12 mx-auto px-4 md:px-12" }, [
-            _c(
-              "div",
-              { staticClass: "flex flex-wrap -mx-1 mt-12 lg:-mx-4" },
-              _vm._l(_vm.categories, function(category, id) {
-                return _c(
-                  "div",
-                  {
-                    key: id,
-                    staticClass:
-                      "my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/3"
-                  },
-                  [
-                    _c(
-                      "article",
-                      {
-                        staticClass: "overflow-hidden rounded-lg shadow-lg px-4"
-                      },
-                      [
-                        _c(
-                          "inertia-link",
-                          {
-                            attrs: {
-                              href: _vm.route("category.edit", category.id)
-                            }
-                          },
-                          [
-                            _c("img", {
-                              staticClass: "block h-64 w-full",
+          _c(
+            "div",
+            { staticClass: "container my-12 mx-auto px-4 md:px-12" },
+            [
+              _c(
+                "inertia-link",
+                { attrs: { href: _vm.route("category.create") } },
+                [
+                  _c(
+                    "b-button",
+                    {
+                      staticClass: "mt-12",
+                      attrs: { type: "is-primary", "icon-left": "plus" }
+                    },
+                    [_vm._v("\n            Add new category\n          ")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex flex-wrap -mx-1 mt-6 lg:-mx-4" },
+                _vm._l(_vm.categories, function(category, id) {
+                  return _c(
+                    "div",
+                    {
+                      key: id,
+                      staticClass:
+                        "my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/3"
+                    },
+                    [
+                      _c(
+                        "article",
+                        {
+                          staticClass:
+                            "overflow-hidden rounded-lg shadow-lg px-4"
+                        },
+                        [
+                          _c(
+                            "inertia-link",
+                            {
                               attrs: {
-                                alt: "Placeholder",
-                                src: "storage/" + category.image
+                                href: _vm.route("category.edit", category.id)
                               }
-                            })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "header",
-                          {
-                            staticClass:
-                              "flex items-center justify-between leading-tight p-2 md:p-4"
-                          },
-                          [
-                            _c(
-                              "h1",
-                              { staticClass: "text-lg" },
-                              [
-                                _c(
-                                  "inertia-link",
-                                  {
-                                    staticClass: "no-underline text-green-600",
-                                    attrs: {
-                                      href: _vm.route(
-                                        "category.edit",
-                                        category.id
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "block h-64 w-full",
+                                attrs: {
+                                  alt: "Placeholder",
+                                  src: "storage/" + category.image
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "header",
+                            {
+                              staticClass:
+                                "flex items-center justify-between leading-tight p-2 md:p-4"
+                            },
+                            [
+                              _c(
+                                "h1",
+                                { staticClass: "text-lg" },
+                                [
+                                  _c(
+                                    "inertia-link",
+                                    {
+                                      staticClass:
+                                        "no-underline text-green-600",
+                                      attrs: {
+                                        href: _vm.route(
+                                          "category.edit",
+                                          category.id
+                                        )
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(category.name) +
+                                          "\n                  "
                                       )
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                    " +
-                                        _vm._s(category.name) +
-                                        "\n                  "
-                                    )
-                                  ]
-                                )
-                              ],
-                              1
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "footer",
-                          {
-                            staticClass:
-                              "flex items-center justify-between leading-none pb-4"
-                          },
-                          [
-                            _c(
-                              "span",
-                              {
-                                staticClass:
-                                  "flex items-center no-underline hover:underline text-black",
-                                attrs: { href: "#" }
-                              },
-                              [
-                                _c("p", { staticClass: "ml-2 text-sm" }, [
-                                  _vm._v(_vm._s(category.description))
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _vm._m(0, true)
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "footer",
+                            {
+                              staticClass:
+                                "flex items-center justify-between leading-none pb-4"
+                            },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "flex items-center no-underline hover:underline text-black",
+                                  attrs: { href: "#" }
+                                },
+                                [
+                                  _c("p", { staticClass: "ml-2 text-sm" }, [
+                                    _vm._v(_vm._s(category.description))
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(0, true)
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            ],
+            1
+          )
         ])
       ])
     ],

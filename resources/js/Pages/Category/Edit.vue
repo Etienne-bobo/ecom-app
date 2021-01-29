@@ -19,10 +19,7 @@
                     class="block font-medium text-xl leading-snug text-black dark:text-gray-100"
                     >{{ category.name }}</span
                   >
-                  <span
-                    class="block text-sm text-gray-500 dark:text-gray-400 font-light leading-snug"
-                    >{{ category.created_at | formatDate }}</span
-                  >
+                  
                 </div>
 
                 <div>
@@ -43,9 +40,9 @@
                       >
                         <!--header-->
                         <div
-                          class="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t"
+                          class="flex items-start justify-between px-5 py-3 border-b border-solid border-gray-300 rounded-t"
                         >
-                          <h3 class="text-3xl font-semibold">
+                          <h3 class="text-xl font-semibold">
                             Update Category
                           </h3>
                           <button
@@ -112,6 +109,7 @@
                                 >
                                   <b-upload
                                     v-model="form.image"
+                                    ref="image"
                                     class="file-label"
                                   >
                                     <span class="file-cta">
@@ -126,49 +124,46 @@
                                     <span class="file-name" v-if="form.image">
                                       {{ form.image.name }}
                                     </span>
+                                    <span v-else>
+                                      <img
+                                        class="w-12 h-12 rounded-full ml-4"
+                                        :src="`http://localhost:8000/storage/${category.image}`"
+                                      />
+                                    </span>
                                   </b-upload>
                                 </b-field>
-                                <inertia-link :href="route('category.index')">
-                                  <div class="buttons">
-                                    <button
-                                      class="button is-success"
-                                      @click="handleSubmit(submit(form))"
-                                    >
-                                      <span class="icon is-small">
-                                        <i class="fas fa-check"></i>
-                                      </span>
-                                      <span>Submit</span>
-                                    </button>
-                                  </div>
-                                </inertia-link>
+                                <!-- <input type="file" @change="onFileChanged" /> -->
                               </section>
+
+                              <div
+                                class="flex items-center justify-end px-6 py-3 border-t border-solid border-gray-300 rounded-b"
+                              >
+                                <button
+                                  class="text-red-500 bg-transparent hover:text-black active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1"
+                                  type="button"
+                                  style="transition: all 0.15s ease"
+                                  v-on:click="showModal = false"
+                                >
+                                  Close
+                                </button>
+                                <button
+                                  class="text-white bg-green-600 font-bold uppercase px-6 py-3 rounded-md text-sm outline-none focus:outline-none mr-1 mb-1"
+                                  type="button"
+                                  style="transition: all 0.15s ease"
+                                  v-on:click="handleSubmit(update)"
+                                >
+                                  Save Changes
+                                </button>
+                              </div>
                             </ValidationObserver>
                           </form>
                         </div>
+
                         <!--footer-->
-                        <div
-                          class="flex items-center justify-end px-6 py-3 border-t border-solid border-gray-300 rounded-b"
-                        >
-                          <button
-                            class="text-red-500 bg-transparent hover:text-black active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1"
-                            type="button"
-                            style="transition: all 0.15s ease"
-                            v-on:click="showModal = false"
-                          >
-                            Close
-                          </button>
-                          <button
-                            class="text-white bg-green-600 font-bold uppercase px-6 py-3 rounded-md text-sm outline-none focus:outline-none mr-1 mb-1"
-                            type="button"
-                            style="transition: all 0.15s ease"
-                            v-on:click="toggleModal()"
-                          >
-                            Save Changes
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </div>
+
                   <div
                     v-if="showModal"
                     class="opacity-25 fixed inset-0 z-40 bg-black"
@@ -188,7 +183,10 @@
               </p>
               <div class="flex justify-between items-center mt-5">
                 <div class="ml-1 text-gray-500 dark:text-gray-400 font-light">
-                  33 comments
+                  <span
+                    class="block text-sm text-gray-500 dark:text-gray-400 font-light leading-snug"
+                    >{{ category.created_at | formatDate }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -208,19 +206,37 @@ export default {
   data() {
     return {
       showModal: false,
-      form: {
-          name: this.category.name,
-          description: this.category.description,
-          image: ''
-      }
+      sending: false,
+
+      form: this.$inertia.form({
+        _method: "PUT",
+        name: this.category.name,
+        description: this.category.description,
+        image: null,
+      }),
     };
   },
   components: {
     Applayout,
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   methods: {
+    update: function () {
+      this.form.post(route("category.update", this.category.id), {
+        errorBag: "updateCategory",
+        preserveScroll: true,
+      });
+      this.showModal = false;
+      this.$buefy.snackbar.open({
+        duration: 5000,
+        message: "success category updated ......",
+        type: "is-success",
+        position: "is-top",
+        actionText: "close",
+        queue: false,
+      });
+    },
     destroy(category) {
       this.$buefy.dialog.confirm({
         title: "Deleting " + category.name + " category",
@@ -232,6 +248,14 @@ export default {
         onConfirm() {
           category._method = "DELETE";
           this.$inertia.post("/category/" + category.id, category);
+          this.$buefy.snackbar.open({
+            duration: 5000,
+            message: "success category deleted ......",
+            type: "is-danger",
+            position: "is-top",
+            actionText: "close",
+            queue: false,
+          });
         },
       });
     },

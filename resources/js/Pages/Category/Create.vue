@@ -114,9 +114,9 @@ export default {
     submit: function (data) {
       this.$inertia.post("/category", data);
       this.$buefy.snackbar.open({
-        duration: 10000,
+        duration: 5000,
         message: 'success category created ......',
-        type: "is-danger",
+        type: "is-success",
         position: "is-top",
         actionText: "close",
         queue: false,

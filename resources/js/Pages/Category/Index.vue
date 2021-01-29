@@ -4,9 +4,19 @@
     <div class="flex flex-wrap">
       <div class="md:mt-10 w-full px-4 md:ml-64">
         <div class="container my-12 mx-auto px-4 md:px-12">
-          <div class="flex flex-wrap -mx-1 mt-12 lg:-mx-4">
+          <inertia-link :href="route('category.create')">
+            <b-button class="mt-12" type="is-primary" icon-left="plus">
+              Add new category
+            </b-button>
+          </inertia-link>
+
+          <div class="flex flex-wrap -mx-1 mt-6 lg:-mx-4">
             <!-- Column -->
-            <div v-for="(category, id) in categories" :key="id" class="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/3">
+            <div
+              v-for="(category, id) in categories"
+              :key="id"
+              class="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/3"
+            >
               <!-- Article -->
               <article class="overflow-hidden rounded-lg shadow-lg px-4">
                 <inertia-link :href="route('category.edit', category.id)">
@@ -21,8 +31,11 @@
                   class="flex items-center justify-between leading-tight p-2 md:p-4"
                 >
                   <h1 class="text-lg">
-                    <inertia-link class="no-underline text-green-600" :href="route('category.edit', category.id)">
-                      {{category.name}}
+                    <inertia-link
+                      class="no-underline text-green-600"
+                      :href="route('category.edit', category.id)"
+                    >
+                      {{ category.name }}
                     </inertia-link>
                   </h1>
                 </header>
@@ -34,7 +47,7 @@
                     class="flex items-center no-underline hover:underline text-black"
                     href="#"
                   >
-                    <p class="ml-2 text-sm">{{category.description}}</p>
+                    <p class="ml-2 text-sm">{{ category.description }}</p>
                   </span>
                   <a
                     class="no-underline text-grey-darker hover:text-red-dark"
@@ -58,7 +71,7 @@
 import Applayout from "../../Layouts/Layout";
 export default {
   name: "category-page",
-  props: ['categories'],
+  props: ["categories"],
   components: {
     Applayout,
   },

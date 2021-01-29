@@ -81,7 +81,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+        $image = $category->image;
+        if($request->hasFile('image')){
+            $image = $request->file('image')->store('files');
+            \Storage::delete($category->image);
+        }    
+        $category->name = $request->get('name');
+        $category->description = $request->get('description');
+        $category->image = $image;
+        $category->save();
+        return redirect()->back();
     }
 
     /**
@@ -93,7 +103,9 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
+        $filename = $category->image;
         $category->delete();
+        \Storage::delete($filename);
         return Redirect::route('category.index');
     }
 }
