@@ -30,10 +30,7 @@
           <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
             <!-- the "handleSubmit" function on the slot-scope executes the callback if validation was successfull -->
             <section class="section">
-              <ValidationProvider
-                rules="required"
-                v-slot="{ errors, valid }"
-              >
+              <ValidationProvider rules="required" v-slot="{ errors, valid }">
                 <b-field
                   label="Name"
                   :type="{ 'is-danger': errors[0], 'is-success': valid }"
@@ -43,10 +40,7 @@
                 </b-field>
               </ValidationProvider>
 
-              <ValidationProvider
-                rules="required"
-                v-slot="{ errors, valid }"
-              >
+              <ValidationProvider rules="required" v-slot="{ errors, valid }">
                 <b-field
                   label="Description"
                   :type="{ 'is-danger': errors[0], 'is-success': valid }"
@@ -73,16 +67,20 @@
                   </span>
                 </b-upload>
               </b-field>
-              <inertia-link :href="route('category.index')">
+
               <div class="buttons">
-                <button class="button is-success" @click="handleSubmit(submit(form))">
-                  <span class="icon is-small">
-                    <i class="fas fa-check"></i>
-                  </span>
-                  <span>Submit</span>
-                </button>
+                <inertia-link :href="route('category.index')">
+                  <button
+                    class="button is-success"
+                    @click.prevent="handleSubmit(submit)"
+                  >
+                    <span class="icon is-small">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span>Create</span>
+                  </button>
+                </inertia-link>
               </div>
-              </inertia-link>
             </section>
           </ValidationObserver>
         </form>
@@ -102,7 +100,6 @@ export default {
         description: "",
         image: null,
       },
-      
     };
   },
   components: {
@@ -111,16 +108,18 @@ export default {
     ValidationProvider,
   },
   methods: {
-    submit: function (data) {
-      this.$inertia.post("/category", data);
-      this.$buefy.snackbar.open({
-        duration: 5000,
-        message: 'success category created ......',
-        type: "is-success",
-        position: "is-top",
-        actionText: "close",
-        queue: false,
-      });
+    submit: function () {
+      if (this.$refs.observer.validate()) {
+        this.$inertia.post("/category", this.form);
+        this.$buefy.snackbar.open({
+          duration: 5000,
+          message: "success category created ......",
+          type: "is-success",
+          position: "is-top",
+          actionText: "close",
+          queue: false,
+        });
+      }
     },
   },
 };

@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Subcategory;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class SubcategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
-        return Inertia::render('Category/Index', ['categories' => $categories]);
+        //
     }
 
     /**
@@ -28,7 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Category/Create');
+        $categories = Category::latest()->get();
+        return Inertia::render('Subcategory/Create', [ 'categories' => $categories]);
     }
 
     /**
@@ -39,12 +39,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $image = $request->file('image')->store('files');
-        Category::create([
+        Subcategory::create([
+            'category_id' => $request->get('category'),
             'name' => $request->get('name'),
-            'slug' => Str::slug($request->get('name')),
-            'description' => $request->get('description'),
-            'image' => $image
         ]);
         return Redirect::route('category.index');
     }
@@ -68,8 +65,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-        return Inertia::render('Category/Edit', ['category' => $category]);
+        //
     }
 
     /**
@@ -81,17 +77,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
-        $image = $category->image;
-        if($request->hasFile('image')){
-            $image = $request->file('image')->store('files');
-            \Storage::delete($category->image);
-        }    
-        $category->name = $request->get('name');
-        $category->description = $request->get('description');
-        $category->image = $image;
-        $category->save();
-        return redirect()->back();
+        //
     }
 
     /**
@@ -102,10 +88,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        $filename = $category->image;
-        $category->delete();
-        \Storage::delete($filename);
-        return Redirect::route('category.index');
+        //
     }
 }
