@@ -40,7 +40,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = $request->file('image')->store('products');
+        Product::create([
+            'name' => $request->get('name'),
+            'price' => $request->get('price'),
+            'description' => $request->get('description'),
+            'additional_info' => $request->get('additional_info'),
+            'category_id' => $request->get('category'),
+            'subcategory_id' => $request->get('subcategory'),
+            'image' => $image
+        ]);
+        return Redirect::route('product.index');
     }
 
     /**
@@ -87,4 +97,11 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function loadSubCategories(Request $request, $id)
+    {
+        $subcategory = Subcategory::where('category_id', $id)->pluck('name', 'id');
+        return response()->json($subcategory);
+    }
+    
 }

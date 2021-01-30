@@ -2,7 +2,7 @@
   <div>
     <Applayout />
     <div class="flex flex-wrap mx-auto">
-      <div class="w-full lg:w-8/12 max-w-2xl mt-12 px-4 md:ml-64">
+      <div class="w-full lg:w-8/12 max-w-4xl mt-12 px-4 md:ml-64">
         <div class="bg-green-500 text-center mt-12 py-4 px-4">
           <div
             class="p-2 bg-indigo-600 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex"

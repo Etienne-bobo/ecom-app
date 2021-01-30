@@ -2,7 +2,7 @@
   <div>
     <Applayout />
     <div class="flex flex-wrap mx-auto">
-      <div class="w-full lg:w-8/12 max-w-2xl mt-12 px-4 md:ml-64">
+      <div class="w-full lg:w-8/12 max-w-4xl mt-12 px-4 md:ml-64">
         <div class="bg-green-500 text-center mt-12 py-4 px-4">
           <div
             class="p-2 bg-indigo-600 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex"
@@ -54,19 +54,11 @@
                   :type="{ 'is-danger': errors[0], 'is-success': valid }"
                   :message="errors"
                 >
-                  <b-input
-                    maxlength="200"
-                    v-model="form.description"
-                    type="textarea"
-                  ></b-input>
+                  <vue-editor v-model="form.description"></vue-editor>
                 </b-field>
               </ValidationProvider>
               <b-field label="Additional Info">
-                <b-input
-                  maxlength="200"
-                  v-model="form.additional_info"
-                  type="textarea"
-                ></b-input>
+                <vue-editor v-model="form.additional_info"></vue-editor>
               </b-field>
               <ValidationProvider rules="required" v-slot="{ errors, valid }">
                 <b-field
@@ -104,24 +96,27 @@
                   </option>
                 </b-select>
               </b-field>
-              <b-field
-                class="file is-primary mt-4"
-                :class="{ 'has-name': !!form.image }"
-              >
-                <b-upload v-model="form.image" class="file-label">
-                  <span class="file-cta">
-                    <b-icon class="file-icon" icon="upload"></b-icon>
-                    <span class="file-label">Click to upload</span>
-                  </span>
-                  <span class="file-name" v-if="form.image">
-                    {{ form.image.name }}
-                  </span>
-                </b-upload>
-              </b-field>
-
+              <ValidationProvider rules="required" v-slot="{ errors, valid }">
+                <b-field
+                  class="file is-primary mt-4"
+                  :class="{ 'has-name': !!form.image }"
+                  :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                  :message="errors"
+                >
+                  <b-upload v-model="form.image" class="file-label">
+                    <span class="file-cta">
+                      <b-icon class="file-icon" icon="upload"></b-icon>
+                      <span class="file-label">Click to upload</span>
+                    </span>
+                    <span class="file-name" v-if="form.image">
+                      {{ form.image.name }}
+                    </span>
+                  </b-upload>
+                </b-field>
+              </ValidationProvider>
               <div class="buttons">
                 <button
-                  class="button is-success"
+                  class="button is-success mt-4"
                   @click.prevent="handleSubmit(submit)"
                 >
                   <span class="icon is-small">
@@ -140,6 +135,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import Applayout from "../../Layouts/Layout";
+import { VueEditor } from "vue2-editor";
 export default {
   name: "category-create-page",
   data() {
@@ -160,6 +156,7 @@ export default {
     Applayout,
     ValidationObserver,
     ValidationProvider,
+    VueEditor,
   },
   methods: {
     submit: function () {
