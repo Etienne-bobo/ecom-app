@@ -76,6 +76,12 @@
                 label="Categories"
               ></b-menu-item>
             </inertia-link>
+            <inertia-link :href="route('subcategory.index')">
+              <b-menu-item
+                icon="information-outline"
+                label="Subcategories"
+              ></b-menu-item>
+            </inertia-link>
             <b-menu-item icon="settings">
               <template #label="props">
                 Administrator

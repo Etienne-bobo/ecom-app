@@ -17,7 +17,8 @@ class SubcategoryController extends Controller
      */
     public function index()
     {
-        //
+        $subcategories = Subcategory::latest()->with('category')->get();
+        return Inertia::render('Subcategory/Index', [ 'subcategories' => $subcategories]);
     }
 
     /**
@@ -43,7 +44,7 @@ class SubcategoryController extends Controller
             'category_id' => $request->get('category'),
             'name' => $request->get('name'),
         ]);
-        return Redirect::route('category.index');
+        return Redirect::route('subcategory.index');
     }
 
     /**
@@ -65,7 +66,9 @@ class SubcategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $subcategory = Subcategory::with('category')->find($id);
+        $categories = Category::latest()->get();
+        return Inertia::render('Subcategory/Edit', ['subcategory' => $subcategory, 'categories' => $categories]);
     }
 
     /**
@@ -77,7 +80,11 @@ class SubcategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $subcategory = Subcategory::find($id);
+        $subcategory->name = $request->get('name');
+        $subcategory->category_id = $request->get('category');
+        $subcategory->save();
+        return redirect()->back();
     }
 
     /**
@@ -88,6 +95,8 @@ class SubcategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $subcategory = Subcategory::find($id);
+        $subcategory->delete();
+        return Redirect::route('subcategory.index');
     }
 }
