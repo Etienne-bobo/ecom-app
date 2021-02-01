@@ -34,5 +34,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::resource('category', CategoryController::class);
 Route::resource('subcategory', SubcategoryController::class);
 Route::resource('product', ProductController::class);
-Route::get('subcategories/{id}', [ ProductController::class, 'loadSubCategories']);
+Route::get('subcategories/{id}', [ ProductController::class, 'loadSubCategories'])->name("loadSubCategories");
 

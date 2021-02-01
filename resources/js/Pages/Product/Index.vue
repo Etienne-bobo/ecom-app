@@ -4,9 +4,9 @@
     <div class="flex flex-wrap">
       <div class="md:mt-10 w-full px-4 md:ml-64">
         <div class="container my-12 mx-auto px-4 md:px-12">
-          <inertia-link :href="route('category.create')">
+          <inertia-link :href="route('product.create')">
             <b-button class="mt-12" type="is-primary" icon-left="plus">
-              Add new category
+              Add new Product
             </b-button>
           </inertia-link>
 
@@ -43,11 +43,17 @@
                 <footer
                   class="flex items-center justify-between leading-none pb-4"
                 >
+                 <span
+                    class="flex items-center no-underline hover:underline text-black"
+                    href="#"
+                  >
+                    <p class="ml-2 text-sm">{{ product.subcategory.name }}</p>
+                  </span>
                   <span
                     class="flex items-center no-underline hover:underline text-black"
                     href="#"
                   >
-                    <p class="ml-2 text-sm">{{ product.description }}</p>
+                    <p class="ml-2 text-sm">{{ product.category.name }}</p>
                   </span>
                   <a
                     class="no-underline text-grey-darker hover:text-red-dark"

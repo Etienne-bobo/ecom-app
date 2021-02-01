@@ -66,10 +66,11 @@
                   :type="{ 'is-danger': errors[0], 'is-success': valid }"
                   :message="errors"
                 >
-                  <b-select
+                  <select
                     v-model="form.category"
                     placeholder="Select Category"
-                    icon="earth"
+                    @change="getSubcategories"
+                    class="text-gray-400 appearance-none border inline-block py-3 pl-3 pr-8 rounded leading-tight w-full"
                   >
                     <option
                       v-for="(category, id) in categories"
@@ -78,24 +79,33 @@
                     >
                       {{ category.name }}
                     </option>
-                  </b-select>
+                  </select>
                 </b-field>
               </ValidationProvider>
-              <b-field label="Subcategory">
-                <b-select
-                  v-model="form.subcategory"
-                  placeholder="Select Category"
-                  icon="earth"
+              <ValidationProvider rules="required" v-slot="{ errors, valid }">
+                <b-field
+                  v-if="subCat.length != 0"
+                  label="Subcategory"
+                  :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                  :message="errors"
                 >
-                  <option
-                    v-for="(subcategory, id) in subcategories"
-                    :key="id"
-                    :value="subcategory.id"
+                  <select
+                    v-model="form.subcategory"
+                    placeholder="Select SubCategory"
+                    class="text-gray-600 appearance-none border inline-block py-3 pl-3 pr-8 rounded leading-tight w-full"
                   >
-                    {{ subcategory.name }}
-                  </option>
-                </b-select>
-              </b-field>
+                    <option
+                      v-for="(subcategory, id) in subCat"
+                      :key="id"
+                      :value="subcategory.id"
+                    >
+                      <span>
+                        {{ subcategory.name }}
+                      </span>
+                    </option>
+                  </select>
+                </b-field>
+              </ValidationProvider>
               <ValidationProvider rules="required" v-slot="{ errors, valid }">
                 <b-field
                   class="file is-primary mt-4"
@@ -149,16 +159,25 @@ export default {
         subcategory: "",
         image: null,
       },
+      subCat: [],
     };
   },
-  props: ["categories", "subcategories"],
+  props: ["categories", "subcategorys", "subcategories"],
   components: {
     Applayout,
     ValidationObserver,
     ValidationProvider,
     VueEditor,
   },
+
   methods: {
+    getSubcategories: function () {
+      axios.get("/subcategories/" + this.form.category).then(
+        function (response) {
+          this.subCat = response.data;
+        }.bind(this)
+      );
+    },
     submit: function () {
       if (this.$refs.observer.validate()) {
         this.$inertia.post("/product", this.form);
@@ -172,6 +191,9 @@ export default {
         });
       }
     },
+  },
+  created: function () {
+    this.categories;
   },
 };
 </script>

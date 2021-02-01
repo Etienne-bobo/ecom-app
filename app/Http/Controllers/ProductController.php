@@ -17,7 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::with('category', 'subcategory')->get();
+        return Inertia::render('Product/Index', ['products' => $products]);
     }
 
     /**
@@ -29,7 +30,9 @@ class ProductController extends Controller
     {
         $categories = Category::latest()->get();
         $subcategories = Subcategory::latest()->get();
-        return Inertia::render('Product/Create', [ 'categories' => $categories, 'subcategories' => $subcategories]);
+        $subcategorys = Category::with('subcategories')->get();
+        //return $subcategorys;
+        return Inertia::render('Product/Create', [ 'subcategories' => $subcategories, 'categories' => $categories]);
     }
 
     /**
@@ -72,7 +75,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::with('category','subcategory')->find($id);
+        $categories = Category::latest()->get();
+        return Inertia::render('Product/Edit', ['product' => $product, 'categories' => $categories]);
     }
 
     /**
@@ -84,7 +89,21 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        $image = $product->image;
+        if($request->hasFile('image')){
+            $image = $request->file('image')->store('files');
+            \Storage::delete($product->image);
+        }    
+        $product->name = $request->get('name');
+        $product->price = $request->get('price');
+        $product->description = $request->get('description');
+        $product->additional_info = $request->get('additional_info');
+        $product->category_id = $request->get('category');
+        $product->subcategory_id = $request->get('subcategory');
+        $product->image = $image;
+        $product->save();
+        return redirect()->back();
     }
 
     /**
@@ -95,13 +114,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $filename = $product->image;
+        $product->delete();
+        \Storage::delete($filename);
+        return Redirect::route('product.index');
     }
 
     public function loadSubCategories(Request $request, $id)
     {
-        $subcategory = Subcategory::where('category_id', $id)->pluck('name', 'id');
-        return response()->json($subcategory);
+        $data = Subcategory::where('category_id', $id)->get();
+        return response()->json($data);
     }
     
 }
