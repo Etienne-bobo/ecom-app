@@ -15,6 +15,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function dashboard()
+    {
+        //$products = Product::with('category', 'subcategory')->get();
+        return Inertia::render('Dashboard');
+    }
+
     public function index()
     {
         $products = Product::with('category', 'subcategory')->get();
@@ -126,5 +133,7 @@ class ProductController extends Controller
         $data = Subcategory::where('category_id', $id)->get();
         return response()->json($data);
     }
+
+
     
 }

@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FrontProductListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,21 +19,24 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// })->name('home');
+Route::get('/', [ FrontProductListController::class, 'index'])->name("frontHome");
+
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->name('dashboard');
+
+Route::group(['middleware' => ['auth', 'isAdmin']], function(){
+    Route::get('dashboard', [ ProductController::class, 'dashboard'])->name("dashboard");
+    Route::resource('category', CategoryController::class);
+    Route::resource('subcategory', SubcategoryController::class);
+    Route::resource('product', ProductController::class);
+    Route::get('subcategories/{id}', [ ProductController::class, 'loadSubCategories'])->name("loadSubCategories");
 });
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
-
-Route::resource('category', CategoryController::class);
-Route::resource('subcategory', SubcategoryController::class);
-Route::resource('product', ProductController::class);
-Route::get('subcategories/{id}', [ ProductController::class, 'loadSubCategories'])->name("loadSubCategories");
-
