@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Product;
 
 class FrontProductListController extends Controller
 {
@@ -17,8 +18,14 @@ class FrontProductListController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->take(3)->get();
-        return Inertia::render('Welcome', ['categories' => $categories]);
+        $topCategories = Category::latest()->take(3)->get();
+        $topProducts = Product::latest()->take(3)->get();
+        $categories = Category::latest()->get();
+        return Inertia::render('Welcome', [
+            'topCategories' => $topCategories,
+            'topProducts' => $topProducts,
+            'categories' => $categories
+            ]);
     }
 
     /**
@@ -50,7 +57,10 @@ class FrontProductListController extends Controller
      */
     public function show($id)
     {
-        //
+        //inRandomOrder->limit(3)
+        $product = Product::find($id);
+        $topProducts = Product::all()->random(3);
+        return Inertia::render('FrontEnd/showSingleProduct', ['product' => $product, 'topProducts' => $topProducts]);
     }
 
     /**

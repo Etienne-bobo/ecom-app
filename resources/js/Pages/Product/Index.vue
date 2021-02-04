@@ -43,7 +43,8 @@
                 <footer
                   class="flex items-center justify-between leading-none pb-4"
                 >
-                 <span
+                  <span
+                    v-if="product.subcategory"
                     class="flex items-center no-underline hover:underline text-black"
                     href="#"
                   >

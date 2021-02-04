@@ -82,30 +82,23 @@
                   </select>
                 </b-field>
               </ValidationProvider>
-              <ValidationProvider rules="required" v-slot="{ errors, valid }">
-                <b-field
-                  v-if="subCat.length != 0"
-                  label="Subcategory"
-                  :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                  :message="errors"
+              <b-field v-if="subCat.length != 0" label="Subcategory">
+                <select
+                  v-model="form.subcategory"
+                  placeholder="Select SubCategory"
+                  class="text-gray-600 appearance-none border inline-block py-3 pl-3 pr-8 rounded leading-tight w-full"
                 >
-                  <select
-                    v-model="form.subcategory"
-                    placeholder="Select SubCategory"
-                    class="text-gray-600 appearance-none border inline-block py-3 pl-3 pr-8 rounded leading-tight w-full"
+                  <option
+                    v-for="(subcategory, id) in subCat"
+                    :key="id"
+                    :value="subcategory.id"
                   >
-                    <option
-                      v-for="(subcategory, id) in subCat"
-                      :key="id"
-                      :value="subcategory.id"
-                    >
-                      <span>
-                        {{ subcategory.name }}
-                      </span>
-                    </option>
-                  </select>
-                </b-field>
-              </ValidationProvider>
+                    <span>
+                      {{ subcategory.name }}
+                    </span>
+                  </option>
+                </select>
+              </b-field>
               <ValidationProvider rules="required" v-slot="{ errors, valid }">
                 <b-field
                   class="file is-primary mt-4"

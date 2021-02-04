@@ -28,6 +28,7 @@ use App\Http\Controllers\FrontProductListController;
 //     ]);
 // })->name('home');
 Route::get('/', [ FrontProductListController::class, 'index'])->name("frontHome");
+Route::get('vixiza/product/{id}', [ FrontProductListController::class, 'show'])->name("showProduct");
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
