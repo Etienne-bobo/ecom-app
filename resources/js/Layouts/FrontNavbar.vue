@@ -42,19 +42,18 @@
                       hidden: !dropdownPopoverShow,
                       block: dropdownPopoverShow,
                     }"
-                   
                     class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1"
                     style="min-width: 12rem"
                     ref="popoverDropdownRef"
                   >
-                    <a
-                     v-for="(category, id) in categories"
-                    :key="id"
-                      href="#pablo"
+                    <inertia-link
+                      v-for="(category, id) in categories"
+                      :key="id"
+                      :href="route('allProducts', category.slug)"
                       class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
                     >
-                      {{category.name}}
-                    </a>
+                      {{ category.name }}
+                    </inertia-link>
                   </div>
                 </div>
               </div>
@@ -114,7 +113,7 @@ export default {
   data() {
     return {
       showMenu: false,
-      dropdownPopoverShow: false
+      dropdownPopoverShow: false,
     };
   },
   props: ["categories"],
@@ -122,16 +121,16 @@ export default {
     toggleNavbar: function () {
       this.showMenu = !this.showMenu;
     },
-    toggleDropdown: function(){
-      if(this.dropdownPopoverShow){
+    toggleDropdown: function () {
+      if (this.dropdownPopoverShow) {
         this.dropdownPopoverShow = false;
       } else {
         this.dropdownPopoverShow = true;
         new Popper(this.$refs.btnDropdownRef, this.$refs.popoverDropdownRef, {
-          placement: "bottom-start"
+          placement: "bottom-start",
         });
       }
-    }
+    },
   },
 };
 </script>

@@ -305,7 +305,7 @@ export default {
         description: this.product.description,
         additional_info: this.product.additional_info,
         category: this.product.category.id,
-        subcategory: this.product.subcategory.id,
+        subcategory: '',
         image: null,
       }),
       subCat: [],

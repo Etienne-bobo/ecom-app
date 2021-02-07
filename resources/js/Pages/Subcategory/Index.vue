@@ -4,7 +4,7 @@
     <div class="flex flex-wrap">
       <div class="md:mt-10 w-full px-4 md:ml-64">
         <div class="container my-12 mx-auto px-4 md:px-12">
-          <inertia-link :href="route('category.create')">
+          <inertia-link :href="route('subcategory.create')">
             <b-button class="mt-12" type="is-primary" icon-left="plus">
               Add new Subcategory
             </b-button>

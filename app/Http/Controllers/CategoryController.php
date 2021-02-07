@@ -88,6 +88,7 @@ class CategoryController extends Controller
             \Storage::delete($category->image);
         }    
         $category->name = $request->get('name');
+        $category->slug =  Str::slug($request->get('name'));
         $category->description = $request->get('description');
         $category->image = $image;
         $category->save();

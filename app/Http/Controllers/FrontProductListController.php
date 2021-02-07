@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Subcategory;
 
 class FrontProductListController extends Controller
 {
@@ -59,7 +60,11 @@ class FrontProductListController extends Controller
     {
         //inRandomOrder->limit(3)
         $product = Product::find($id);
-        $topProducts = Product::all()->random(3);
+        $topProducts = Product::inRandomOrder()
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->limit(3)
+            ->get();
         return Inertia::render('FrontEnd/showSingleProduct', ['product' => $product, 'topProducts' => $topProducts]);
     }
 
@@ -95,5 +100,28 @@ class FrontProductListController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function allProducts(Request $request,$name){
+        $category = Category::where('slug', $name)->first();
+        if($request->get('subcategory')){
+            //filter
+            $products = $this->filterProducts($request);
+        }else{
+            $products = Product::where('category_id', $category->id)->get();
+        }
+        $subcategories = Subcategory::where('category_id', $category->id)->get();
+        $slug = $name;
+        return Inertia::render('FrontEnd/productListPerCategory', ['products' => $products, 'subcategories' => $subcategories, 'slug' => $slug]);
+
+    }
+
+    public function filterProducts(Request $request){
+        $subId = [];
+        $subcategory = Subcategory::whereIn('id', $request->get('subcategory'))->get();
+        foreach($subcategory as $sub){
+            array_push($subId, $sub->id);
+        }
+        $products = Product::whereIn('subcategory_id', $subId)->get();
     }
 }

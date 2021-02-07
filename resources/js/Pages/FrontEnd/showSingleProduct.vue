@@ -327,7 +327,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-16">
+        <div class="mt-16" v-if="topProducts.length != 0">
           <h3 class="text-gray-600 text-2xl font-medium">More Products</h3>
           <div class="flex flex-wrap -mx-1 mt-6 lg:-mx-4">
             <div
