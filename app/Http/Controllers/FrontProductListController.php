@@ -106,7 +106,8 @@ class FrontProductListController extends Controller
         $category = Category::where('slug', $name)->first();
         if($request->get('subcategory')){
             //filter
-            $products = $this->filterProducts($request);
+            $products =Product::where('subcategory_id', $request->subcategory)
+            ->get();
         }else{
             $products = Product::where('category_id', $category->id)->get();
         }
@@ -116,12 +117,12 @@ class FrontProductListController extends Controller
 
     }
 
-    public function filterProducts(Request $request){
-        $subId = [];
-        $subcategory = Subcategory::whereIn('id', $request->get('subcategory'))->get();
-        foreach($subcategory as $sub){
-            array_push($subId, $sub->id);
-        }
-        $products = Product::whereIn('subcategory_id', $subId)->get();
-    }
+    // public function filterProducts(Request $request){
+    //     $subId = [];
+    //     $subcategory = Subcategory::whereIn('id', [$request->get('subcategory')])->get();
+    //     foreach($subcategory as $sub){
+    //         array_push($subId, $sub->id);
+    //     }
+    //     $products = Product::whereIn('subcategory_id', $subId)->get();
+    // }
 }

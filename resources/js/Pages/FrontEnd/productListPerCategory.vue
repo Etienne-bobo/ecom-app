@@ -2,7 +2,7 @@
   <div class="container py-12 grid grid-rows-2 grid-flow-col gap-2">
     <div class="mx-4 mt-16 row-span-3 ...">
       <ul>
-        <li v-for="(subcategoryItem, id) in subcategories" :key="id">
+        <li v-for="(subcategoryItem, index) in subcategories" :key="index">
           <label class="inline-flex items-center mt-3">
             <input
               type="radio"
@@ -99,7 +99,8 @@ export default {
   props: ["products", "subcategories", "slug"],
   methods: {
       filterProducts(){
-        this.$inertia.get(route("allProducts", this.slug), this.subcategory);
+          let query = this.subcategory
+          this.$inertia.get(this.route("allProducts",this.slug),Object.keys(query).length ? query : { subcategory: this.subcategory });
       }
   }
 };
