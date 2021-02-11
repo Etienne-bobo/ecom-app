@@ -5,10 +5,13 @@
         <li v-for="(subcategoryItem, index) in subcategories" :key="index">
           <label class="inline-flex items-center mt-3">
             <input
-              type="radio"
-              class="form-radio h-5 w-5 text-gray-600"
-              v-model="subcategory"
+              type="checkbox"
+              class="form-checkbox h-5 w-5 text-gray-600"
+              :id="index+1"
               :value="subcategoryItem.id"
+              v-model="subcategory"
+              @change="shouldBeChecked(subcategoryItem.id)"
+             
             /><span class="ml-2 text-gray-700">{{ subcategoryItem.name }}</span>
           </label>
         </li>
@@ -92,16 +95,19 @@ import Input from "../../Jetstream/Input.vue";
 export default {
   data() {
     return {
-      subcategory: [],
+      subcategory: this.subcategoriesId,
     };
   },
   components: { Input },
-  props: ["products", "subcategories", "slug"],
+  props: ["products", "subcategories", "slug", "subcategoriesId"],
   methods: {
       filterProducts(){
-          let query = this.subcategory
-          this.$inertia.get(this.route("allProducts",this.slug),Object.keys(query).length ? query : { subcategory: this.subcategory });
-      }
+          this.$inertia.get(this.route("allProducts",this.slug), {subcategory: this.subcategory});
+      },
+      shouldBeChecked(val) {
+        return this.subcategoriesId.includes(val)
+      },
+    
   }
 };
 </script>
