@@ -94,11 +94,25 @@
           <li class="flex items-center">
             <inertia-link :href="route('login')">
               <button
+                class="bg-blue-500 text-white active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+                type="button"
+                style="transition: all 0.15s ease 0s"
+              >
+                 login
+              </button>
+            </inertia-link>
+          </li>
+          <li class="flex items-center">
+            <inertia-link :href="route('showCart')">
+              <button
                 class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
                 type="button"
                 style="transition: all 0.15s ease 0s"
               >
-                <i class="fas fa-arrow-alt-circle-down"></i> Login
+                 Cart(
+                   <span v-if="$page.props.flash.message">{{$page.props.flash.message}}</span>
+                   <span v-else>0</span>
+                 )
               </button>
             </inertia-link>
           </li>

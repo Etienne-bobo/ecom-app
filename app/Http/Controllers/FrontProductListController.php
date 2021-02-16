@@ -104,29 +104,38 @@ class FrontProductListController extends Controller
 
     public function allProducts(Request $request,$name){
         $category = Category::where('slug', $name)->first();
+        $categoryId = $category->id; 
         if($request->get('subcategory')){
             //filter
            $subId = [];
-        $subcategory = Subcategory::whereIn('id', $request->get('subcategory'))->get();
-        foreach($subcategory as $sub){
-            array_push($subId, $sub->id);
-        }
+            $subcategory = Subcategory::whereIn('id', $request->get('subcategory'))->get();
+            foreach($subcategory as $sub){
+                array_push($subId, $sub->id);
+            }
         
-        $products = Product::whereIn('subcategory_id', $subId)->get();
-        $subcategoriesId = $subId;
+            $products = Product::whereIn('subcategory_id', $subId)->get();
+            $subcategoriesId = $subId;
             // $products =Product::whereIn('subcategory_id', $request->subcategory)
             // ->get();
-        }else{
+        }elseif($request->get('min') || $request->get('max')){
+            $products = Product::whereBetween('price', [$request->get('min'), $request->get('max')])
+            ->where('category_id', $request->category)->get();
+            $subcategoriesId = [];
+        }
+        
+        else{
             $products = Product::where('category_id', $category->id)->get();
             $subcategoriesId = [];
         }
        
         $subcategories = Subcategory::where('category_id', $category->id)->get();
         $slug = $name;
+        //return $productse;
         return Inertia::render('FrontEnd/productListPerCategory', [
             'products' => $products,
             'subcategories' => $subcategories,
             'subcategoriesId' => $subcategoriesId, 
+            'categoryId' => $categoryId,
             'slug' => $slug]);
 
     }

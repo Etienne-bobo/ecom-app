@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FrontProductListController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ use App\Http\Controllers\FrontProductListController;
 Route::get('/', [ FrontProductListController::class, 'index'])->name("frontHome");
 Route::get('vixiza/product/{id}', [ FrontProductListController::class, 'show'])->name("showProduct");
 Route::get('vixiza/category/{name}', [ FrontProductListController::class, 'allProducts'])->name("allProducts");
+Route::get('vixiza/addToCart/{product}', [ CartController::class, 'addToCart'])->name("addToCart");
+Route::get('vixiza/cart', [ CartController::class, 'showCart'])->name("showCart");
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return Inertia::render('Dashboard');

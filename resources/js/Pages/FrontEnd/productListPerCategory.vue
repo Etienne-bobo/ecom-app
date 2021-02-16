@@ -2,29 +2,79 @@
   <div class="container py-12 grid grid-rows-2 grid-flow-col gap-2">
     <div class="mx-4 mt-16 row-span-3 ...">
       <ul>
+        <label>Subcategories</label>
         <li v-for="(subcategoryItem, index) in subcategories" :key="index">
           <label class="inline-flex items-center mt-3">
             <input
               type="checkbox"
               class="form-checkbox h-5 w-5 text-gray-600"
-              :id="index+1"
+              :id="index + 1"
               :value="subcategoryItem.id"
               v-model="subcategory"
               @change="shouldBeChecked(subcategoryItem.id)"
-             
             /><span class="ml-2 text-gray-700">{{ subcategoryItem.name }}</span>
           </label>
         </li>
       </ul>
       <div>
         <button
-          class="ml-2 mt-6 text-md hover:no-underline border border-indigo-600 px-5 py-2 text-indigo-600 rounded-md"
+          class="mt-6 mb-6 text-md hover:no-underline border border-indigo-600 px-5 py-2 text-indigo-600 rounded-md"
           @click="filterProducts"
         >
           Filter
         </button>
       </div>
+      <ul>
+        <label>Price</label>
+        <li>
+          <label class="inline-flex items-center mt-3">
+            <input
+              type="text"
+              class="w-32 h-8 rounded-md text-gray-600"
+              v-model="min"
+              placeholder="Min..."
+            />
+          </label>
+        </li>
+        <li>
+          <label class="inline-flex items-center mt-3">
+            <input
+              type="text"
+              class="w-32 h-8 rounded-md text-gray-600"
+              v-model="max"
+              placeholder="Max..."
+            />
+          </label>
+        </li>
+        <li>
+          <label class="inline-flex items-center mt-3">
+            <input
+              type="hidden"
+              class="w-32 h-8 rounded-md text-gray-600"
+              v-model="category"
+            />
+          </label>
+        </li>
+      </ul>
+      <div>
+        <button
+          class="mt-2 mb-6 text-md hover:no-underline border border-indigo-600 px-5 py-2 text-indigo-600 rounded-md"
+          @click="filterProductsByPrice"
+        >
+          Filter
+        </button>
+      </div>
+      <div>
+        <inertia-link :href="route('allProducts', this.slug)">
+        <button
+          class="mt-2 mb-6 text-md hover:no-underline border bg-indigo-600 px-5 py-2 text-white rounded-md"
+        >
+          Back
+        </button>
+        </inertia-link>
+      </div>
     </div>
+
     <div class="col-span-8 ...">
       <div class="font-semibold">Products List</div>
       <div class="flex flex-wrap -mx-1 mt-6 lg:-mx-4">
@@ -92,22 +142,34 @@
 </template>
 <script>
 import Input from "../../Jetstream/Input.vue";
+import Label from '../../Jetstream/Label.vue';
 export default {
   data() {
     return {
       subcategory: this.subcategoriesId,
+      min: '',
+      max: '',
+      category: this.categoryId
     };
   },
-  components: { Input },
-  props: ["products", "subcategories", "slug", "subcategoriesId"],
+  components: { Input, Label },
+  props: ["products", "subcategories", "slug", "subcategoriesId", "categoryId"],
   methods: {
-      filterProducts(){
-          this.$inertia.get(this.route("allProducts",this.slug), {subcategory: this.subcategory});
-      },
-      shouldBeChecked(val) {
-        return this.subcategoriesId.includes(val)
-      },
-    
-  }
+    filterProducts() {
+      this.$inertia.get(this.route("allProducts", this.slug), {
+        subcategory: this.subcategory,
+      });
+    },
+    filterProductsByPrice() {
+      this.$inertia.get(this.route("allProducts", this.slug), {
+        min: this.min,
+        max: this.max,
+        category: this.category
+      });
+    },
+    shouldBeChecked(val) {
+      return this.subcategoriesId.includes(val);
+    },
+  },
 };
 </script>
