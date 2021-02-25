@@ -33,6 +33,8 @@ Route::get('vixiza/product/{id}', [ FrontProductListController::class, 'show'])-
 Route::get('vixiza/category/{name}', [ FrontProductListController::class, 'allProducts'])->name("allProducts");
 Route::get('vixiza/addToCart/{product}', [ CartController::class, 'addToCart'])->name("addToCart");
 Route::get('vixiza/cart', [ CartController::class, 'showCart'])->name("showCart");
+Route::post('vixiza/cart/update/{product}', [ CartController::class, 'updateCart'])->name("updateCart");
+Route::post('vixiza/cart/remove/{product}', [ CartController::class, 'removeCart'])->name("removeCart");
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return Inertia::render('Dashboard');

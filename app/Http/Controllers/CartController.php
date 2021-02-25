@@ -25,10 +25,33 @@ class CartController extends Controller
     public function showCart(){
         if(session()->has('cart')){
             $cart = new Cart(session()->get('cart'));
+            $cartItems = $cart->items;
+            $cartPrice = $cart->totalPrice;
         }else {
+            $cartPrice = null;
+            $cartItems = null;
             $cart = null;
         }
-        //dd($cart->items);
-        return Inertia::render('FrontEnd/cart', ['cart' => $cart]);
+        return Inertia::render('FrontEnd/cart', ['cart' => $cartItems, 'cartPrice' => $cartPrice]);
+    }
+
+    public function updateCart(Request $request, Product $product){
+        $cart = new Cart(session()->get('cart'));
+        $cart->updateQty($product->id,$request->qty);
+        session()->put('cart', $cart);
+        return redirect()->back();
+    }
+
+    public function removeCart(Product $product){
+        $cart = new Cart(session()->get('cart'));
+        $cart->remove($product->id);
+        if($cart->totalQty <= 0){
+            session()->forget('cart');
+        }else{
+            session()->put('cart', $cart);
+            return redirect()->back();
+        }
+        return redirect()->back();
+
     }
 }
