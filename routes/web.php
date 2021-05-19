@@ -35,6 +35,8 @@ Route::get('vixiza/addToCart/{product}', [ CartController::class, 'addToCart'])-
 Route::get('vixiza/cart', [ CartController::class, 'showCart'])->name("showCart");
 Route::post('vixiza/cart/update/{product}', [ CartController::class, 'updateCart'])->name("updateCart");
 Route::post('vixiza/cart/remove/{product}', [ CartController::class, 'removeCart'])->name("removeCart");
+Route::get('vixiza/checkout/{amount}', [ CartController::class, 'checkout'])->middleware('auth')->name("checkout");
+Route::post('/charge', [ CartController::class, 'charge'])->name("chargeAmount");
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return Inertia::render('Dashboard');

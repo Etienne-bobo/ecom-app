@@ -54,4 +54,14 @@ class CartController extends Controller
         return redirect()->back();
 
     }
+
+    public function checkout($amount){
+        return Inertia::render('FrontEnd/checkout', [ 'amount' => $amount]);
+
+    }
+
+    public function charge(Request $request){
+        //return $request->stripeToken;
+
+    }
 }

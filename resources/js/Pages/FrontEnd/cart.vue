@@ -80,12 +80,25 @@
             <span>Total cost</span>
             <span>{{cartPrice}}$</span>
           </div>
+          <!-- <inertia-link :href="route('checkout', cartPrice)"> -->
           <button
+          @click="submit"
             class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full"
           >
             Checkout
           </button>
+          <!-- </inertia-link> -->
         </div>
+        <stripe-checkout
+      ref="checkoutRef"
+      mode="payment"
+      :line-items="carto"
+      :pk="publishableKey"
+      :success-url="successURL"
+      :cancel-url="cancelURL"
+      @loading="v => loading = v"
+    />
+    <button @click="submit">Pay now!</button>
       </div>
     </div>
     <div v-else>
@@ -151,19 +164,42 @@
   </div>
 </template>
 <script>
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
+
 export default {
-    props: ["cart", "cartPrice"],
-    data(){
-      return{
+    props: {
+      cart: {
+        type: Object
+      },
+      cartPrice: {
+        type: Number
       }
     },
+    components: {
+    StripeCheckout,
+  },
+    data () {
+      
+      
+    this.publishableKey = "pk_test_gc8YWoZEKl6MWmeAzr9UJiIG";
+    return {
+      carto :JSON.parse(JSON.stringify(Object.values(this.cart))) ,
+      loading: false,
+      successURL: 'http://localhost:8000',
+      cancelURL: 'http://localhost:8000',
+    };
+  },
     methods: {
       update(id, qty){
         this.$inertia.post(route("updateCart", id),  {qty:qty})
       }, 
       remove(id){
         this.$inertia.post(route("removeCart", id), id)
-      }
+      },
+      submit () {
+      // You will be redirected to Stripe's secure checkout page
+      this.$refs.checkoutRef.redirectToCheckout();
+    },
     }
 }
 </script>

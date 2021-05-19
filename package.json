@@ -29,6 +29,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@stripe/stripe-js": "^1.13.2",
+        "@vue-stripe/vue-stripe": "^4.1.8",
         "buefy": "^0.9.4",
         "moment": "^2.29.1",
         "popper.js": "^1.16.1",
